@@ -49,7 +49,7 @@ export default function Index() {
   }, [amount, targetCurrency, rates]);
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Currency Converter</Text>
+      <Text className="bg-blue-800">Currency Converter</Text>
 
       <TextInput
         style={styles.input}

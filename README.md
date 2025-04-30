@@ -30,7 +30,7 @@ A simple and responsive mobile app built with React Native and TypeScript that a
 ###
 
 ```bash
-git clone https://github.com/your-username/currency-converter-app.git
+git clone https://github.com/thisarathejana20/Currency-Converter.git
 cd currency_converter
 npm install
 npx expo start

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
+import ModalDropdown from "react-native-modal-dropdown";
 
 const CURRENCY_CODES = ["USD", "EUR", "GBP", "LKR", "INR", "JPY", "CAD"];
 
@@ -86,30 +87,78 @@ export default function Index() {
         From:
       </Text>
       <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
-        <Picker
-          selectedValue={baseCurrency}
-          onValueChange={(value: string) => setBaseCurrency(value)}
-          dropdownIconColor="#4B5563"
-        >
-          {CURRENCY_CODES.map((code) => (
-            <Picker.Item key={code} label={code} value={code} />
-          ))}
-        </Picker>
+        <ModalDropdown
+          options={CURRENCY_CODES}
+          defaultValue={baseCurrency}
+          onSelect={(index, value) => setBaseCurrency(value)}
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            backgroundColor: "#f1f5f9",
+            borderWidth: 1,
+            borderColor: "#94a3b8",
+            borderRadius: 8,
+            marginBottom: 16,
+            elevation: 2,
+          }}
+          textStyle={{
+            fontSize: 16,
+            color: "#0f172a",
+            fontWeight: "500",
+          }}
+          dropdownStyle={{
+            width: "80%",
+            backgroundColor: "#ffffff",
+            borderColor: "#cbd5e1",
+            borderWidth: 1,
+            borderRadius: 8,
+            marginTop: 4,
+          }}
+          dropdownTextStyle={{
+            fontSize: 16,
+            padding: 12,
+            color: "#1e293b",
+          }}
+        />
       </View>
 
       <Text className="font-semibold text-base text-gray-700 dark:text-gray-300 mb-1">
         To:
       </Text>
       <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
-        <Picker
-          selectedValue={targetCurrency}
-          onValueChange={(value: string) => setTargetCurrency(value)}
-          dropdownIconColor="#4B5563"
-        >
-          {CURRENCY_CODES.map((code) => (
-            <Picker.Item key={code} label={code} value={code} />
-          ))}
-        </Picker>
+        <ModalDropdown
+          options={CURRENCY_CODES}
+          defaultValue={targetCurrency}
+          onSelect={(index, value) => setTargetCurrency(value)}
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            backgroundColor: "#f1f5f9",
+            borderWidth: 1,
+            borderColor: "#94a3b8",
+            borderRadius: 8,
+            marginBottom: 16,
+            elevation: 2,
+          }}
+          textStyle={{
+            fontSize: 16,
+            color: "#0f172a",
+            fontWeight: "500",
+          }}
+          dropdownStyle={{
+            width: "80%",
+            backgroundColor: "#ffffff",
+            borderColor: "#cbd5e1",
+            borderWidth: 1,
+            borderRadius: 8,
+            marginTop: 4,
+          }}
+          dropdownTextStyle={{
+            fontSize: 16,
+            padding: 12,
+            color: "#1e293b",
+          }}
+        />
       </View>
 
       {loading ? (

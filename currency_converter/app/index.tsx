@@ -3,9 +3,10 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   ActivityIndicator,
+  useColorScheme,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
@@ -19,6 +20,10 @@ export default function Index() {
   const [convertedAmount, setConvertedAmount] = useState<string | null>(null);
   const [rates, setRates] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const deviceScheme = useColorScheme();
+  const [theme, setTheme] = useState<"light" | "dark">(
+    deviceScheme === "dark" ? "dark" : "light"
+  );
 
   const fetchRates = async () => {
     try {
@@ -48,77 +53,76 @@ export default function Index() {
     }
   }, [amount, targetCurrency, rates]);
   return (
-    <SafeAreaView style={styles.container}>
-      <Text className="bg-blue-800">Currency Converter</Text>
+    <SafeAreaView
+      className={`${
+        theme === "dark" ? "bg-zinc-900" : "bg-white"
+      } flex-1 px-4 pt-10`}
+    >
+      {/* Toggle Button */}
+      <View className="flex-row justify-end mb-4">
+        <Pressable
+          onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="px-4 py-2 rounded-full bg-blue-600 dark:bg-blue-400"
+        >
+          <Text className="text-white dark:text-black font-medium">
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </Text>
+        </Pressable>
+      </View>
+      <Text className="text-3xl font-bold text-center mb-6 text-blue-700 dark:text-blue-400">
+        Currency Converter
+      </Text>
 
       <TextInput
-        style={styles.input}
         keyboardType="numeric"
         value={amount}
         onChangeText={setAmount}
         placeholder="Enter amount"
+        placeholderTextColor="#aaa"
+        className="border border-gray-300 dark:border-gray-700 rounded-lg p-3 mb-4 text-lg bg-white dark:bg-zinc-800 text-black dark:text-white"
       />
 
-      <Text style={styles.label}>From:</Text>
-      <Picker
-        selectedValue={baseCurrency}
-        onValueChange={(value: string) => setBaseCurrency(value)}
-      >
-        {CURRENCY_CODES.map((code) => (
-          <Picker.Item key={code} label={code} value={code} />
-        ))}
-      </Picker>
+      <Text className="font-semibold text-base text-gray-700 dark:text-gray-300 mb-1">
+        From:
+      </Text>
+      <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
+        <Picker
+          selectedValue={baseCurrency}
+          onValueChange={(value: string) => setBaseCurrency(value)}
+          dropdownIconColor="#4B5563"
+        >
+          {CURRENCY_CODES.map((code) => (
+            <Picker.Item key={code} label={code} value={code} />
+          ))}
+        </Picker>
+      </View>
 
-      <Text style={styles.label}>To:</Text>
-      <Picker
-        selectedValue={targetCurrency}
-        onValueChange={(value: string) => setTargetCurrency(value)}
-      >
-        {CURRENCY_CODES.map((code) => (
-          <Picker.Item key={code} label={code} value={code} />
-        ))}
-      </Picker>
+      <Text className="font-semibold text-base text-gray-700 dark:text-gray-300 mb-1">
+        To:
+      </Text>
+      <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
+        <Picker
+          selectedValue={targetCurrency}
+          onValueChange={(value: string) => setTargetCurrency(value)}
+          dropdownIconColor="#4B5563"
+        >
+          {CURRENCY_CODES.map((code) => (
+            <Picker.Item key={code} label={code} value={code} />
+          ))}
+        </Picker>
+      </View>
 
       {loading ? (
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#3B82F6" />
       ) : convertedAmount ? (
-        <Text style={styles.result}>
+        <Text className="text-xl font-semibold text-center text-green-600 dark:text-green-400 mt-6">
           {amount} {baseCurrency} = {convertedAmount} {targetCurrency}
         </Text>
       ) : (
-        <Text style={styles.result}>Enter valid amount</Text>
+        <Text className="text-center text-red-500 mt-6">
+          Enter valid amount
+        </Text>
       )}
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    paddingTop: 60,
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 26,
-    marginBottom: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    padding: 12,
-    marginBottom: 12,
-    borderRadius: 6,
-  },
-  label: {
-    marginTop: 8,
-    fontWeight: "600",
-  },
-  result: {
-    fontSize: 18,
-    marginTop: 24,
-    textAlign: "center",
-    fontWeight: "500",
-  },
-});

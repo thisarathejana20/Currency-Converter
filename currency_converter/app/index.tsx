@@ -11,6 +11,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import ModalDropdown from "react-native-modal-dropdown";
+import Dropdown from "./components/Dropdown";
 
 const CURRENCY_CODES = ["USD", "EUR", "GBP", "LKR", "INR", "JPY", "CAD"];
 
@@ -87,37 +88,12 @@ export default function Index() {
         From:
       </Text>
       <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
-        <ModalDropdown
+        <Dropdown
           options={CURRENCY_CODES}
           defaultValue={baseCurrency}
-          onSelect={(index, value) => setBaseCurrency(value)}
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 16,
-            backgroundColor: "#f1f5f9",
-            borderWidth: 1,
-            borderColor: "#94a3b8",
-            borderRadius: 8,
-            marginBottom: 16,
-            elevation: 2,
-          }}
-          textStyle={{
-            fontSize: 16,
-            color: "#0f172a",
-            fontWeight: "500",
-          }}
-          dropdownStyle={{
-            width: "80%",
-            backgroundColor: "#ffffff",
-            borderColor: "#cbd5e1",
-            borderWidth: 1,
-            borderRadius: 8,
-            marginTop: 4,
-          }}
-          dropdownTextStyle={{
-            fontSize: 16,
-            padding: 12,
-            color: "#1e293b",
+          onChange={(index: string, value: string) => {
+            setBaseCurrency(value);
+            setConvertedAmount(null); // Reset converted amount when base currency changes
           }}
         />
       </View>
@@ -126,37 +102,12 @@ export default function Index() {
         To:
       </Text>
       <View className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 bg-white dark:bg-zinc-800">
-        <ModalDropdown
+        <Dropdown
           options={CURRENCY_CODES}
           defaultValue={targetCurrency}
-          onSelect={(index, value) => setTargetCurrency(value)}
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 16,
-            backgroundColor: "#f1f5f9",
-            borderWidth: 1,
-            borderColor: "#94a3b8",
-            borderRadius: 8,
-            marginBottom: 16,
-            elevation: 2,
-          }}
-          textStyle={{
-            fontSize: 16,
-            color: "#0f172a",
-            fontWeight: "500",
-          }}
-          dropdownStyle={{
-            width: "80%",
-            backgroundColor: "#ffffff",
-            borderColor: "#cbd5e1",
-            borderWidth: 1,
-            borderRadius: 8,
-            marginTop: 4,
-          }}
-          dropdownTextStyle={{
-            fontSize: 16,
-            padding: 12,
-            color: "#1e293b",
+          onChange={(index: string, value: string) => {
+            setTargetCurrency(value);
+            setConvertedAmount(null); // Reset converted amount when target currency changes
           }}
         />
       </View>

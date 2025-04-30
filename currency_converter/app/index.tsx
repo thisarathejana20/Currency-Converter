@@ -8,9 +8,7 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
-import ModalDropdown from "react-native-modal-dropdown";
 import Dropdown from "./components/Dropdown";
 
 const CURRENCY_CODES = ["USD", "EUR", "GBP", "LKR", "INR", "JPY", "CAD"];
@@ -26,6 +24,7 @@ export default function Index() {
   const [theme, setTheme] = useState<"light" | "dark">(
     deviceScheme === "dark" ? "dark" : "light"
   );
+  const [error, setError] = useState<string | null>("Enter valid amount");
 
   const fetchRates = async () => {
     try {
@@ -36,6 +35,7 @@ export default function Index() {
       setRates(response.data.rates);
     } catch (error) {
       console.warn("Failed to fetch rates:", (error as Error).message);
+      setError("Failed to fetch rates. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -119,9 +119,7 @@ export default function Index() {
           {amount} {baseCurrency} = {convertedAmount} {targetCurrency}
         </Text>
       ) : (
-        <Text className="text-center text-red-500 mt-6">
-          Enter valid amount
-        </Text>
+        <Text className="text-center text-red-500 mt-6">{error}</Text>
       )}
     </SafeAreaView>
   );
